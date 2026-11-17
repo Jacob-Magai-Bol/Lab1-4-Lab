@@ -1,0 +1,13 @@
+.venv
+venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.ipynb_checkpoints
+.git
+.gitignore
+**/tests
+**/notebooks
+**/outputs
+**/metrics.json
+**/*.onnx
