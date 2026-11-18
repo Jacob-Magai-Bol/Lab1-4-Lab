@@ -1,0 +1,27 @@
+{
+    "dataset": "ImageNette validation",
+    "evaluation_images": 500,
+    "images_per_class": 50,
+    "results": [
+        {
+            "model": "MobileNetV2 TFLite FP32",
+            "correct_predictions": 348,
+            "total_images": 500,
+            "accuracy_percent": 69.6,
+            "cpu_latency_p50_ms": 6.429,
+            "model_size_bytes": 14001044,
+            "model_size_mb": 13.35
+        },
+        {
+            "model": "MobileNetV2 TFLite INT8",
+            "correct_predictions": 343,
+            "total_images": 500,
+            "accuracy_percent": 68.6,
+            "cpu_latency_p50_ms": 4.004,
+            "model_size_bytes": 4029824,
+            "model_size_mb": 3.84
+        }
+    ],
+    "accuracy_difference_percentage_points": -1.0,
+    "size_reduction_percent": 71.22
+}

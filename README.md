@@ -102,3 +102,77 @@ Use `lab4-containerisation/README.md` for GHCR tagging and publishing.
   tolerance rather than requiring bit-for-bit equality.
 - This is an educational Iris classifier, not a production medical or
   high-stakes decision system.
+
+## Lab 5 — Cloud Deployment
+
+Deployed the FastAPI Iris classification service to Render.
+
+- Deployment platform: Render
+- Health endpoint: `/health`
+- Prediction endpoint: `/predict`
+- Public API: https://iris-api-g33c.onrender.com
+- Verified health and prediction requests after deployment.
+
+Note: The free hosting tier may spin down after inactivity.
+
+## Lab 6 — Kubernetes Deployment
+
+Kubernetes deployment work using Minikube and Docker.
+
+- Local cluster: Minikube
+- Container runtime: Docker
+- Deployment: `iris-api`
+- Initial replicas: 2
+- Service and health probes configured.
+- Metrics Server and Horizontal Pod Autoscaler configured.
+
+The autoscaling, rollout and rollback demonstrations still require final verification.
+
+## Lab 7 — ONNX Model Quantisation
+
+Exported a pretrained ResNet18 image classifier to ONNX and applied INT8 quantisation.
+
+- Dataset: ImageNette
+- Evaluation images: 500
+- Original FP32 model size: 44.58 MB
+- Quantised INT8 model size: 11.20 MB
+- Model size reduction: approximately 74.9%
+
+| Metric | FP32 ONNX | INT8 ONNX |
+|---|---:|---:|
+| Accuracy | 67.2% | 69.0% |
+| CPU p50 latency | 9.123 ms | 22.259 ms |
+| Model size | 44.58 MB | 11.20 MB |
+
+Recommendation: Use FP32 when CPU inference speed is the priority. Use INT8 when reducing model storage is more important.
+
+See `lab7-quantization/README.md` for implementation details.
+
+## Lab 8 — TensorFlow Lite and Android Deployment
+
+Converted MobileNetV2 to TensorFlow Lite, applied full INT8 quantisation and deployed the quantised model to an OPPO A96 Android phone.
+
+- Framework: TensorFlow 2.21.0
+- Dataset: ImageNette
+- Evaluation images: 500
+- Android development: Kotlin and Jetpack Compose
+- Minimum Android version: Android 7.0 (API 24)
+- Input dimensions: 224 x 224 x 3
+- Output classes: 1,000
+
+| Metric | FP32 TFLite | INT8 TFLite |
+|---|---:|---:|
+| Accuracy | 69.6% | 68.6% |
+| CPU p50 latency (evaluation computer) | 6.429 ms | 4.004 ms |
+| Model size | 13.35 MB | 3.84 MB |
+
+- Model size reduction: 71.22%
+- Accuracy difference: -1.0 percentage point
+- INT8 CPU p50 latency was approximately 37.72% lower in the evaluation.
+
+The INT8 model was installed and tested on the OPPO A96 using an Android application. The Android application loads ImageNet class labels and displays the predicted class, confidence and inference latency.
+
+Recommendation: INT8 is suitable for mobile deployment because it reduces model size and improves measured CPU inference speed, with a small accuracy trade-off in the 500-image evaluation.
+
+See `lab8-tensorflow-lite/README.md` for implementation and deployment details.
+

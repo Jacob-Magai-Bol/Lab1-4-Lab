@@ -1,0 +1,24 @@
+{
+    "dataset": "ImageNette validation",
+    "total_images": 500,
+    "images_per_class": 50,
+    "execution_provider": "CPUExecutionProvider",
+    "results": [
+        {
+            "model": "resnet18_fp32",
+            "images_evaluated": 500,
+            "correct_predictions": 336,
+            "top1_accuracy_percent": 67.2,
+            "p50_latency_ms": 9.123,
+            "model_size_mb": 44.58
+        },
+        {
+            "model": "resnet18_int8",
+            "images_evaluated": 500,
+            "correct_predictions": 345,
+            "top1_accuracy_percent": 69.0,
+            "p50_latency_ms": 22.259,
+            "model_size_mb": 11.2
+        }
+    ]
+}
