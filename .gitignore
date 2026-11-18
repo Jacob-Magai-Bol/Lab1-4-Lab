@@ -19,3 +19,8 @@ lab8-tensorflow-lite/data/
 .idea/
 ~$*
 
+
+# Lab 9 - RAG generated files
+lab9-rag-api/vectorstore/
+lab9-rag-api/**/__pycache__/
+lab9-rag-api/.pytest_cache/
