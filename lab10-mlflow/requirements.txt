@@ -8,3 +8,8 @@ uvicorn[standard]>=0.27
 pydantic>=2.6
 pytest>=8.0
 httpx>=0.27
+
+# Lab 11 - Monitoring and data drift detection
+prometheus-client==0.26.0
+evidently==0.7.23
+pandas==2.3.3

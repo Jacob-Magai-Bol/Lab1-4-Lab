@@ -51,3 +51,11 @@ def test_predict_invalid_input():
     )
 
     assert response.status_code == 422
+def test_metrics_endpoint():
+    response = client.get("/metrics")
+
+    assert response.status_code == 200
+    assert "text/plain" in response.headers["content-type"]
+    assert "http_requests_total" in response.text
+    assert "http_request_duration_seconds" in response.text
+    assert "iris_predictions_total" in response.text
