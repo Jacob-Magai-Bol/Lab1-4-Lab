@@ -1,4 +1,4 @@
-﻿# Lab 10 and Lab 11 — MLOps, Monitoring, and Data Drift Detection
+﻿# Lab 10, Lab 11, and Lab 12 — MLOps, Monitoring, Security, and Deployment
 
 ## 1. Overview
 
@@ -57,7 +57,7 @@ The FastAPI service exposes the following Prometheus metrics:
 | Endpoint | Method | Purpose |
 |---|---|---|
 | `/health` | GET | Checks API health |
-| `/predict` | POST | Predicts Iris species |
+| `/predict` | POST | Predicts Iris species (requires X-API-Key authentication; limited to 10 requests/minute) |
 | `/metrics` | GET | Exposes Prometheus metrics |
 
 ## 4. Prometheus and Grafana Setup
@@ -185,9 +185,12 @@ python -m pytest .\lab10-mlflow\tests -v
 | Health endpoint | PASSED |
 | Valid prediction | PASSED |
 | Invalid prediction | PASSED |
+| Missing API key | PASSED |
+| Invalid API key | PASSED |
 | Prometheus metrics endpoint | PASSED |
+| Rate limiting | PASSED |
 
-Total: 4 tests passed.
+Total: 7 tests passed.
 
 ## 9. Project Structure
 
@@ -205,9 +208,11 @@ lab10-mlflow/
 │   ├── metrics.json
 │   ├── iris_reference_data.csv
 │   ├── iris_drifted_data.csv
-│   └── iris_drift_report.html
+│   ├── iris_drift_report.html
+│   └── lab12-trivy-scan.json
 ├── tests/
 │   └── test_api.py
+├── CAPSTONE_PRE_DEPLOYMENT_CHECKLIST.md
 ├── drift_simulation.py
 ├── docker-compose.yml
 ├── requirements.txt
@@ -238,3 +243,24 @@ lab10-mlflow/
 Lab 10 established the Iris classification MLOps pipeline, including model training, registration, API deployment, testing, and containerization.
 
 Lab 11 extended the pipeline with Prometheus monitoring, Grafana visualization, and Evidently data drift detection. The successful detection of drift in two out of four features demonstrates how data monitoring can help identify changes that may affect model reliability.
+
+Lab 12 added API-key authentication, rate limiting, additional automated tests, Docker deployment verification, and Trivy vulnerability scanning. Seven automated tests passed, and the API was verified inside a Docker container. However, the vulnerability scan reported 48 HIGH findings and zero CRITICAL findings. Further vulnerability remediation and production-hardening tasks are required before production deployment.
+## Lab 12 - API Security, Rate Limiting, and Vulnerability Scanning
+
+### API Authentication
+The prediction endpoint requires an API key supplied through the X-API-Key request header. The API key is configured using the IRIS_API_KEY environment variable. Missing or invalid keys return HTTP 401. The health and metrics endpoints remain publicly accessible.
+
+### Rate Limiting
+The prediction endpoint is limited to 10 requests per minute per client IP address using SlowAPI.
+
+### Automated Tests
+Seven pytest tests passed, covering health, prediction, input validation, missing API key, invalid API key, metrics, and rate limiting.
+
+### Docker Deployment
+The Lab 12 API was containerized using the lab10-mlflow Dockerfile. The container lab12-iris-test was tested on port 8002. The health endpoint and authenticated prediction endpoint were verified successfully.
+
+### Trivy Vulnerability Scan
+The image was scanned using Trivy. The scan reported zero CRITICAL findings and 48 HIGH findings: 47 associated with Debian packages and one Python package finding. A setuptools version discrepancy was observed between Trivy and the installed container version. Remaining HIGH findings require further investigation and remediation.
+
+### Capstone Pre-Deployment Checklist
+See CAPSTONE_PRE_DEPLOYMENT_CHECKLIST.md for the deployment readiness checklist. The application is not yet cleared for production deployment because outstanding HIGH vulnerability findings and production-hardening tasks remain.
