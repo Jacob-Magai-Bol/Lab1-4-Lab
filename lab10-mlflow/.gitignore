@@ -1,0 +1,18 @@
+﻿# MLflow local database
+mlflow.db
+mlflow.db-shm
+mlflow.db-wal
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Test cache
+.pytest_cache/
+
+# Local environment files
+.env
